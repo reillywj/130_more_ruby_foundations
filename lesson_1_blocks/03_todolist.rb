@@ -104,6 +104,14 @@ class TodoList
     end
   end
 
+  def select(title = '')
+    output = TodoList.new(title)
+    @todos.select {|element| yield(element)}.each do |element|
+      output.add element
+    end
+    output
+  end
+
   private
 
   def indexing(index)
@@ -190,3 +198,19 @@ puts list
 # [ ] Buy milk
 # [X] Clean room
 # [ ] Go to gym
+
+todo1 = Todo.new("Buy milk")
+todo2 = Todo.new("Clean room")
+todo3 = Todo.new("Go to gym")
+
+list = TodoList.new("Today's Todos")
+list.add(todo1)
+list.add(todo2)
+list.add(todo3)
+
+todo1.done!
+
+results = list.select { |todo| todo.done? }    # you need to implement this method
+
+puts results.inspect
+puts results
