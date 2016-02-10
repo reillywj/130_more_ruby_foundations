@@ -102,12 +102,13 @@ class TodoList
     @todos.each do |element|
       yield(element)
     end
+    self
   end
 
   def select(title = '')
     output = TodoList.new(title)
-    @todos.select {|element| yield(element)}.each do |element|
-      output.add element
+    @todos.each do |element|
+      output.add(element) if yield(element)
     end
     output
   end
