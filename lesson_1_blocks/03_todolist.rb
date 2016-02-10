@@ -54,6 +54,8 @@ class TodoList
     @todos << todo
   end
 
+  alias_method :<<, :add
+
   def size
     @todos.size
   end
@@ -96,6 +98,16 @@ class TodoList
       str += "#{todo}\n"
     end
     str
+  end
+
+  def done?
+    @todos.all? { |todo| todo.done? }
+  end
+
+  def done!
+    each do |todo|
+      todo.done!
+    end
   end
 
   def each
@@ -188,6 +200,9 @@ list.mark_done_at(1)            # marks the 2nd item as done
 # to_s
 list.to_s                      # returns string representation of the list
 puts list
+puts "Is list completed? #{list.done?}"
+list.done!
+puts list
 # ---- Today's Todos ----
 # [ ] Buy milk
 # [ ] Clean room
@@ -215,3 +230,5 @@ results = list.select { |todo| todo.done? }    # you need to implement this meth
 
 puts results.inspect
 puts results
+
+# puts TodoList.instance_methods
