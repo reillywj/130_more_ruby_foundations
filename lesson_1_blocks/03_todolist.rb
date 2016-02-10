@@ -98,6 +98,12 @@ class TodoList
     str
   end
 
+  def each
+    @todos.each do |element|
+      yield(element)
+    end
+  end
+
   private
 
   def indexing(index)
