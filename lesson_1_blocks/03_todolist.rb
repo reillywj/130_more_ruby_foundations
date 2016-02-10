@@ -1,6 +1,7 @@
 # Assignment:
 # Created a TodoList w/ collection of Todo objects
 
+require 'pry'
 
 # This class represents a todo item and its associated
 # data: name and description. There's also a "done"
@@ -48,7 +49,61 @@ class TodoList
   end
 
   # rest of class needs implementation
+  def add(todo)
+    raise TypeError.new('Must be a Todo') unless todo.is_a? Todo
+    @todos << todo
+  end
 
+  def size
+    @todos.size
+  end
+
+  def first
+    @todos.first
+  end
+
+  def last
+    @todos.last
+  end
+
+  def item_at(index)
+    indexing(index) { |index| @todos[index] }
+  end
+
+  def mark_done_at(index)
+    item_at(index).done!
+  end
+
+  def mark_undone_at(index)
+    item_at(index).undone!
+  end
+
+  def shift
+    @todos.shift
+  end
+
+  def pop
+    @todos.pop
+  end
+
+  def remove_at(index)
+    indexing(index) { |index| @todos.delete_at(index) }
+  end
+
+  def to_s
+    str = ''
+    @todos.each do |todo|
+      str += "#{todo}\n"
+    end
+    str
+  end
+
+  private
+
+  def indexing(index)
+    raise IndexError.new('Index out of bounds') if index > size - 1
+    yield(index)
+  end
 end
 
 
@@ -65,7 +120,7 @@ list = TodoList.new("Today's Todos")
 list.add(todo1)                 # adds todo1 to end of list, returns list
 list.add(todo2)                 # adds todo2 to end of list, returns list
 list.add(todo3)                 # adds todo3 to end of list, returns list
-list.add(1)                     # raises TypeError with message "Can only add Todo objects"
+# list.add(1)                     # raises TypeError with message "Can only add Todo objects"
 
 # <<
 # same behavior as add
@@ -84,40 +139,40 @@ list.last                       # returns todo3, which is the last item in the l
 # ---- Retrieving an item in the list ----
 
 # item_at
-list.item_at                    # raises ArgumentError
+# list.item_at                    # raises ArgumentError
 list.item_at(1)                 # returns 2nd item in list (zero based index)
-list.item_at(100)               # raises IndexError
+# list.item_at(100)               # raises IndexError
 
 # ---- Marking items in the list -----
 
 # mark_done_at
-list.mark_done_at               # raises ArgumentError
+# list.mark_done_at               # raises ArgumentError
 list.mark_done_at(1)            # marks the 2nd item as done
-list.mark_done_at(100)          # raises IndexError
+# list.mark_done_at(100)          # raises IndexError
 
 # mark_undone_at
-list.mark_undone_at             # raises ArgumentError
-list.mark_undone_at(1)          # marks the 2nd item as not done,
-list.mark_undone_at(100)        # raises IndexError
+# list.mark_undone_at             # raises ArgumentError
+# list.mark_undone_at(1)          # marks the 2nd item as not done,
+# list.mark_undone_at(100)        # raises IndexError
 
 # ---- Deleting from the the list -----
 
 # shift
-list.shift                      # removes and returns the first item in list
+# list.shift                      # removes and returns the first item in list
 
-# pop
-list.pop                        # removes and returns the last item in list
+# # pop
+# list.pop                        # removes and returns the last item in list
 
-# remove_at
-list.remove_at                  # raises ArgumentError
-list.remove_at(1)               # removes and returns the 2nd item
-list.remove_at(100)             # raises IndexError
+# # remove_at
+# # list.remove_at                  # raises ArgumentError
+# list.remove_at(1)               # removes and returns the 2nd item
+# list.remove_at(100)             # raises IndexError
 
 # ---- Outputting the list -----
 
 # to_s
 list.to_s                      # returns string representation of the list
-
+puts list
 # ---- Today's Todos ----
 # [ ] Buy milk
 # [ ] Clean room
