@@ -105,24 +105,42 @@ class TodoList
   end
 
   def done!
-    each do |todo|
-      todo.done!
-    end
+    each { |todo| todo.done! }
   end
 
   def each
-    @todos.each do |element|
-      yield(element)
-    end
+    @todos.each { |element| yield(element) }
     self
   end
 
   def select(title = '')
     output = TodoList.new(title)
-    @todos.each do |element|
+    each do |element|
       output.add(element) if yield(element)
     end
     output
+  end
+
+  def find_by_title(title)
+    select {|todo| todo.title == title}.first
+  end
+
+  def all_done
+    select { |todo| todo.done? }
+  end
+
+  def all_not_done
+    select { |todo| !todo.done?}
+  end
+
+  def mark_done(title)
+    find_by_title(title) && find_by_title(title).done!
+  end
+
+  alias_method :mark_all_done, :done!
+
+  def mark_all_undone
+    each { |todo| todo.undone! }
   end
 
   private
