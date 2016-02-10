@@ -91,7 +91,7 @@ class TodoList
   end
 
   def to_s
-    str = ''
+    str = "#{title.center 20, '-'}\n"
     @todos.each do |todo|
       str += "#{todo}\n"
     end
