@@ -97,7 +97,7 @@ class TodoList
     @todos.each do |todo|
       str += "#{todo}\n"
     end
-    str
+    str.chomp
   end
 
   def done?
@@ -143,7 +143,7 @@ class TodoList
     each { |todo| todo.undone! }
   end
 
-  alias_method :mark_all_undone, :undone!
+  alias_method :undone!, :mark_all_undone
 
   def include?(todo)
     todos.include? todo

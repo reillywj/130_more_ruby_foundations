@@ -75,4 +75,15 @@ class TodoListTest < Minitest::Test
     @list.done!
     assert_equal TodoList.new(''), @list.all_not_done
   end
+
+  def test_to_s
+  output = <<-OUTPUT.chomp.gsub /^\s+/, ""
+  ----Things to Do----
+  [ ] Work
+  [ ] Eat
+  [ ] Sleep
+  OUTPUT
+
+  assert_equal(output, @list.to_s)
+end
 end
