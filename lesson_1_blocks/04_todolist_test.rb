@@ -14,6 +14,10 @@ class TodoListTest < Minitest::Test
     @list << @first_todo << @second_todo << @third_todo
   end
 
+  def test_type_error_when_adding
+    assert_raises(TypeError) { @list << "Wrong Type" }
+  end
+
   def test_size
     assert_equal 3, @list.size
   end
