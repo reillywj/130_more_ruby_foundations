@@ -76,14 +76,55 @@ class TodoListTest < Minitest::Test
     assert_equal TodoList.new(''), @list.all_not_done
   end
 
-  def test_to_s
-  output = <<-OUTPUT.chomp.gsub /^\s+/, ""
-  ----Things to Do----
-  [ ] Work
-  [ ] Eat
-  [ ] Sleep
-  OUTPUT
+  def test_to_s_1
+    output = <<-OUTPUT.chomp.gsub /^\s+/, ""
+    ----Things to Do----
+    [ ] Work
+    [ ] Eat
+    [ ] Sleep
+    OUTPUT
 
-  assert_equal(output, @list.to_s)
-end
+    assert_equal(output, @list.to_s)
+  end
+
+  def test_to_s_2
+    @first_todo.done!
+    output = <<-OUTPUT.chomp.gsub /^\s+/, ""
+    ----Things to Do----
+    [X] Work
+    [ ] Eat
+    [ ] Sleep
+    OUTPUT
+
+    assert_equal(output, @list.to_s)
+  end
+
+  def test_to_s_3
+    @list.done!
+    output = <<-OUTPUT.chomp.gsub /^\s+/, ""
+    ----Things to Do----
+    [X] Work
+    [X] Eat
+    [X] Sleep
+    OUTPUT
+
+    assert_equal(output, @list.to_s)
+  end
+
+  def test_each_iterates
+    @list.each { |todo| todo.done! }
+
+    assert_equal true, @list.done?
+  end
+
+  def test_each_returns_original_object
+    return_object = @list.each { |todo| todo.done! }
+
+    assert_same @list, return_object
+  end
+
+  def test_select
+    odd_todos = @list.select { |todo| todo.title.downcase =~ /e/ }
+    assert_equal [@second_todo, @third_todo], odd_todos.todos
+  end
 end
