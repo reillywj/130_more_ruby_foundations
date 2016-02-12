@@ -1,3 +1,6 @@
+require 'simplecov'
+SimpleCov.start
+
 require 'minitest/autorun'
 require 'minitest/reporters'
 Minitest::Reporters.use!
@@ -68,6 +71,16 @@ class TodoListTest < Minitest::Test
     assert_equal true, @list.done?
   end
 
+  def test_mark_done
+    @list.mark_done('Sleep')
+    assert_equal true, @list.find_by_title('Sleep').done?
+  end
+
+  def test_mark_all_undone
+    @list.done!.mark_all_undone
+    assert_equal false, @list.done?
+  end
+
   def test_all_done
     assert_equal TodoList.new(''), @list.all_done
     @list.done!
@@ -130,5 +143,13 @@ class TodoListTest < Minitest::Test
   def test_select
     odd_todos = @list.select { |todo| todo.title.downcase =~ /e/ }
     assert_equal [@second_todo, @third_todo], odd_todos.todos
+  end
+
+  def test_todos
+    assert_equal [@first_todo, @second_todo, @third_todo], @list.todos
+  end
+
+  def test_find_by_title
+    assert_equal @second_todo, @list.find_by_title('Eat')
   end
 end

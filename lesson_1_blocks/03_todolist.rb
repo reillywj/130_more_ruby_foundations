@@ -137,8 +137,6 @@ class TodoList
     find_by_title(title) && find_by_title(title).done!
   end
 
-  alias_method :mark_all_done, :done!
-
   def mark_all_undone
     each { |todo| todo.undone! }
   end
