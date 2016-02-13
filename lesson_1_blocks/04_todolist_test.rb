@@ -73,7 +73,7 @@ class TodoListTest < Minitest::Test
 
   def test_mark_done
     @list.mark_done('Sleep')
-    assert_equal true, @list.find_by_title('Sleep' ).done?
+    assert_equal true, @list.find_by_title('Sleep').done?
   end
 
   def test_mark_all_undone
